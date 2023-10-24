@@ -1,0 +1,13 @@
+.container {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: auto;
+
+  .loader {
+    display: grid;
+    place-items: center;
+    width: 600px;
+    height: 600px;
+  }
+}

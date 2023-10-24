@@ -1,0 +1,33 @@
+@import "../abstracts/colors";
+
+.dashboard {
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+    height: 95%;
+
+    background-color: $light-bootstrap-background-color;
+    color: $default-color-dark;
+
+    // background-color: $dashboard-background-color;
+    // color: $default-color-light;
+
+    &__user, &__tasks {
+        padding: 20px;
+        // border: 1px solid #000;
+    }
+
+    &__user {
+
+        &--title {
+            width: 50%;
+        }
+    }
+
+    &__tasks {
+        // background-color: brown;
+        text-align: center;
+        min-width: 364px;
+        
+    }
+}

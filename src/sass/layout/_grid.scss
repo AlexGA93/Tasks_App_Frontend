@@ -1,0 +1,8 @@
+.grid {
+    // grid
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(5, 1fr);
+    place-items: center;
+}
+
