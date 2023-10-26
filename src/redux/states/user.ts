@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { checkLocalStorage, clearLocalStorage, userKey } from "../../utils";
+import { getLocalStorage, clearLocalStorage, userKey } from "../../utils";
 import { UserStateType, UserType } from "../../types/types";
 import axios from "axios";
 
@@ -10,7 +10,7 @@ export const getUserInfo = createAsyncThunk<UserType, void>(
     async () => {
         const headers = {
             "Content-Type": "application/json",
-            "x-auth-token": checkLocalStorage(userKey)
+            "x-auth-token": getLocalStorage(userKey)
         };
         
         const userInfo = await axios.get("http://localhost:5000/api/users/user",{headers});

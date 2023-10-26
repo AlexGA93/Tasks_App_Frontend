@@ -4,6 +4,7 @@ import { CardTask } from "../../../components";
 import { getUserTasks } from "../../../redux/states/task";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { TaskType } from "../../../types/types";
+import { getLocalStorage, userKey } from "../../../utils";
 
 const Dashboard = () => {
 
@@ -13,7 +14,9 @@ const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   
   useEffect(() => {
-    dispatch(getUserTasks());
+    if(getLocalStorage(userKey)){
+      dispatch(getUserTasks());
+    }
   }, [dispatch])
   
 

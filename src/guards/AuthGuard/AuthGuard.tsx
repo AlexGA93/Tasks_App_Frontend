@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { GuardPropsType } from "../../types/types"
 import { PrivateRoutes, PublicRoutes } from "../../routes/routes"
-import { checkLocalStorage, userKey } from "../../utils";
+import { getLocalStorage, userKey } from "../../utils";
 
 const AuthGuard = ({ validation }: GuardPropsType) => {
 
   // check redux user state
-  const getToken = checkLocalStorage(userKey);
+  const getToken = getLocalStorage(userKey);
 
   return getToken ? (
     validation ? (

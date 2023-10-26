@@ -6,6 +6,7 @@ import { loginUser } from "../../../redux/states/auth";
 import { AppDispatch, RootState } from "../../../redux/store";
 import "../../../sass/main.scss";
 import { LoginUserType, PublicPropsType } from "../../../types/types";
+import { getLocalStorage, userKey } from "../../../utils";
 
 
 const Login = ({ handleToast }: PublicPropsType) => {
@@ -28,16 +29,17 @@ const Login = ({ handleToast }: PublicPropsType) => {
       // dispatch register action
       dispatch(loginUser(formValue))
       .then(() => {
+        console.log("then");
         // toast success - update root state to true
         handleToast({value: true, toastFlag: 'success', toastMessage: 'User loged successfully!' });
-        
       }).catch((err: Error) => {
         //toast error
         handleToast({value: true, toastFlag: 'danger', toastMessage: err.message });
         console.error(err.message);
       }).finally(() => {
+        console.log(getLocalStorage(userKey));
         // navigate to dashboard
-        navigate("/private/");
+        if(typeof(getLocalStorage(userKey))==="string") navigate("/private/");
       });
     }
     // update local state

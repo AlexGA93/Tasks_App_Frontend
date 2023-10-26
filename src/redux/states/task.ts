@@ -1,37 +1,57 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { NewTaskType, TaskType, TasksStateType } from "../../types/types";
-import { checkLocalStorage, userKey } from "../../utils";
-const headers = {
-  "Content-Type": "application/json",
-  "x-auth-token": checkLocalStorage(userKey),
-};
+import { getLocalStorage, userKey } from "../../utils";
+
 
 export const getUserTasks = createAsyncThunk<TaskType[], void>("tasks/getTasks", async () => {
+  const headers = {
+    "Content-Type": "application/json",
+    "x-auth-token": getLocalStorage(userKey),
+  };
+  console.log("dentro de getTasks");
   console.log(headers);
   
   const userTasks = await axios.get("http://localhost:5000/api/tasks/", {
     headers,
   });
+  console.log(userTasks);
+  
   return userTasks.data.tasks;
 });
 
 export const newTask = createAsyncThunk<void, NewTaskType>("tasks/newTask", async (newTask: NewTaskType, thunkAPI) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "x-auth-token": getLocalStorage(userKey),
+  };
   await axios.post("http://localhost:5000/api/tasks/", newTask, {headers});
   thunkAPI.dispatch(getUserTasks());
 });
 
 export const getSingleTask = createAsyncThunk<TaskType, string>("tasks/singleTask", async (taskId: string) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "x-auth-token": getLocalStorage(userKey),
+  };
   const singleTaskResponse = await axios.get(`http://localhost:5000/api/tasks/${taskId}`, {headers});
   return singleTaskResponse.data;
 });
 
 export const updateTask = createAsyncThunk<TaskType, {taskId:string; taskInfo:NewTaskType}>("tasks/updateTask", async (task: {taskId:string; taskInfo:NewTaskType}) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "x-auth-token": getLocalStorage(userKey),
+  };
   const updatedTask = await axios.put(`http://localhost:5000/api/tasks/${task.taskId}`, task.taskInfo, {headers});
   return updatedTask.data.taskUpdated;
 })
 
 export const deleteTask = createAsyncThunk("tasks/deleteTask", async(taskId:string) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "x-auth-token": getLocalStorage(userKey),
+  };
   await axios.delete(`http://localhost:5000/api/tasks/${taskId}`, {headers});
 })
 

@@ -4,19 +4,21 @@ import { AuthStateType, LoginUserType, RegisterUserType } from "../../types/type
 import { persistLocalStorage, userKey } from "../../utils";
 
 // AsyncThunbk to authentication - Register, Login
-export const loginUser = createAsyncThunk<string, LoginUserType>(
+export const loginUser = createAsyncThunk<void, LoginUserType>(
   "auth/login",
   async (loginForm: LoginUserType) => {
     const headers = {
       "Content-Type": "application/json",
     };
 
-    const response = await axios.post(
-      "http://localhost:5000/api/auth/login",
-      loginForm,
-      { headers }
-    );
-    return response.data.token
+    await axios.post("http://localhost:5000/api/auth/login",loginForm,{ headers })
+    .then((response) => {
+      persistLocalStorage(userKey, response.data.token);
+      console.log("Token in LocalStorage");
+      
+    })
+    .catch((err: Error) => console.error(err.message));
+  
   }
 );
 
@@ -49,9 +51,8 @@ export const authSlice = createSlice({
     builder.addCase(loginUser.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(loginUser.fulfilled, (state, action) => {
+    builder.addCase(loginUser.fulfilled, (state) => {
       state.isLoading = false;
-      persistLocalStorage(userKey, action.payload);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.isLoading = false;
